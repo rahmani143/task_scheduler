@@ -1,0 +1,20 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# Ignore large model and voice files
+*.onnx
+*.zip
+*.bin
+*.raw
+*.wav
+Kokoro-82M/
+kokoro_CPU_Only_or_AMD_v2/
+vosk-model-en-us-0.42-gigaspeech/

@@ -1,0 +1,36 @@
+# Core ML / STT
+torch
+openai-whisper
+vosk
+
+# Audio I/O
+sounddevice
+soundfile
+numpy
+
+# Hotkey + parsing
+pynput
+dateparser
+python-dateutil
+
+# Google ADK (legacy + new)
+google-generativeai
+google-genai
+
+# Notifications + TTS
+win10toast
+plyer
+pyttsx3
+edge-tts
+
+# Web API (optional)
+fastapi
+uvicorn[standard]
+
+# Kokoro ONNX TTS
+kokoro-onnx
+
+# Utilities
+pydantic
+python-dotenv
+
