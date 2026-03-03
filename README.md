@@ -1,37 +1,83 @@
-# Brother — Local Throughput Assistant
+Since you are developing **Brother**, a robust agentic workstation, a professional `README.md` should serve as both technical documentation for the system's architecture and a user manual for its unique "Priority Waterfall" capabilities.
 
-Overview
-- Local assistant that stores tasks in SQLite, uses Gemini ADK (Gemini 1.5 Flash) for higher-level parsing, and Whisper Base for local STT.
+Here is a comprehensive `README.md` tailored for your repository.
 
-Files
-- `db.py`: SQLite helpers and schema.
-- `adk_tools.py`: ADK configuration, system instruction, and the callable tool functions: `add_task`, `delete_task`, `generate_optimized_schedule`.
-- `listener.py`: Hotkey listener (Ctrl+Shift+F), records 5–7s, transcribes locally with Whisper, and routes commands to ADK/tools.
-- `morning_brief.py`: Fetches today's tasks, runs throughput algorithm, and shows a system notification with top 3 tasks.
-- `requirements.txt`: Python dependencies.
+---
 
-Setup
-1. Create a venv and install packages:
+# Brother: Agentic Task Manager
 
-```powershell
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-pip install -r requirements.txt
+Brother is an intelligent, agentic task-management system designed for high-throughput productivity. It bridges the gap between structured database management and dynamic, voice-enabled interaction, ensuring you never miss a deadline while keeping your daily schedule optimized.
+
+## 1. Core Philosophy: The Priority Waterfall
+
+Brother operates on a rigid **Priority Waterfall** protocol. Your tasks are not just stored; they are simulated through an agentic lens to ensure your day remains manageable:
+
+* **Priority 3 (Critical):** Takes absolute precedence in scheduling.
+* **Priority 2 (Standard):** Fills available slots after P3.
+* **Priority 1 (Maintenance/Low):** Automatically spilled over to the next day if the current schedule (06:00–22:00) reaches saturation.
+
+## 2. Technical Stack
+
+* **Language:** Python 3.8+
+* **Database:** `sqlite3` with automated schema migration.
+* **Interface:** `PyQt6` (GUI) and a CLI REPL.
+* **AI/Agentic Layer:** Google Generative AI (Gemini 2.0 Flash) via the ADK.
+* **Scheduling:** Custom greedy-allocation algorithm with duration-aware slotting.
+
+## 3. Installation
+
+Ensure you have `uv` or `pip` installed.
+
+```bash
+# Clone the repository
+git clone <your-repo-url>
+cd brother
+
+# Install dependencies
+pip install PyQt6 dateparser google-generativeai
+
+# Configure your environment
+export GOOGLE_API_KEY="your_api_key_here"
+
 ```
 
-2. Set Google ADK / Gemini key if you plan to use the ADK client (optional):
+## 4. System Usage
 
-Windows PowerShell:
+### GUI Mode
 
-```powershell
-$env:GOOGLE_API_KEY = "YOUR_KEY"
-```
+The GUI provides a visual dashboard to manage your tasks.
 
-Notes
-- The code includes a local fallback parser so basic voice commands ("add task ...", "delete task <id>") work without Gemini.
-- For robust natural-language date parsing the code uses `dateparser`.
-- To register the morning brief to run on unlock, see `scheduler_setup.ps1` for a PowerShell snippet to register a Task Scheduler job.
+* **Launch:** `python main_tui.py`
+* **Features:** Tabbed views (Daily Schedule / Master Database), real-time notifications for task spillover, and integrated voice agent activation.
 
-Questions
-- At 6 AM, would you prefer a Voice Summary (TTS) or a Dashboard (terminal popup)?
-- Do you want me to refine the throughput algorithm further now?
+### CLI/Voice Mode
+
+For power users, the CLI allows for rapid input and voice processing.
+
+* **Launch:** `python main_cli.py`
+* **Wake Word:** Say *"Hey Brother"* after activating voice mode to record commands.
+
+## 5. Command Reference
+
+| ID | Command | Description |
+| --- | --- | --- |
+| **0** | EXIT | Graceful shutdown. |
+| **1** | ADD_TASK | Format: `Name <TAB> Date <TAB> Dur <TAB> Prio <TAB> Fixed` |
+| **2** | DELETE_TASK | Remove task by ID with table preview. |
+| **3** | SHOW_SCHEDULE | View daily optimized schedule. |
+| **4** | MORNING_BRIEF | Agent-generated summary of pending tasks. |
+| **5** | LIST_TASKS | View all tasks (sorted by priority). |
+| **6** | MARK_COMPLETE | Mark a task as done (updates status). |
+| **7** | WIPE DATABASE | Full system reset. |
+| **8** | VIEW HISTORY | Query completed and missed tasks. |
+
+## 6. Troubleshooting
+
+* **DLL Load Errors (Windows):** The system force-disables CUDA (`os.environ["CUDA_VISIBLE_DEVICES"] = "-1"`) to prevent `c10.dll` initialization crashes. If you see WinError 1114, ensure your environment variables are correctly pointing to your Torch installation.
+* **Safety Filters:** If the Agent blocks a request, it is due to strict safety thresholds. The system is configured to `BLOCK_NONE` for most categories to prevent interference with productivity commands.
+
+---
+
+### Deployment & Customization
+
+Would you like me to provide a `Dockerfile` for containerized deployment, or perhaps a guide on how to integrate a new custom scheduling heuristic into `adk_tools.py`?
