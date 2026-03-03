@@ -1,8 +1,3 @@
-Since you are developing **Brother**, a robust agentic workstation, a professional `README.md` should serve as both technical documentation for the system's architecture and a user manual for its unique "Priority Waterfall" capabilities.
-
-Here is a comprehensive `README.md` tailored for your repository.
-
----
 
 # Brother: Agentic Task Manager
 
@@ -76,8 +71,3 @@ For power users, the CLI allows for rapid input and voice processing.
 * **DLL Load Errors (Windows):** The system force-disables CUDA (`os.environ["CUDA_VISIBLE_DEVICES"] = "-1"`) to prevent `c10.dll` initialization crashes. If you see WinError 1114, ensure your environment variables are correctly pointing to your Torch installation.
 * **Safety Filters:** If the Agent blocks a request, it is due to strict safety thresholds. The system is configured to `BLOCK_NONE` for most categories to prevent interference with productivity commands.
 
----
-
-### Deployment & Customization
-
-Would you like me to provide a `Dockerfile` for containerized deployment, or perhaps a guide on how to integrate a new custom scheduling heuristic into `adk_tools.py`?
